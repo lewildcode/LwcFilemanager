@@ -1,0 +1,17 @@
+{
+    "name": "lewildcode/LwcFilemanager",
+    "description": "ZF2 file manager",
+    "keywords": [
+    ],
+    "require": {
+        "zendframework/zend-modulemanager": "2.5.x",
+        "zendframework/zend-view": "2.5.x",
+        "zendframework/zend-config": "2.5.x",
+        "zendframework/zend-i18n": "2.5.x",
+        "zendframework/zend-console": "2.5.x",
+        "zendframework/zend-text": "2.5.x",
+        "zendframework/zend-log": "2.5.x",
+        "zendframework/zend-version": "2.5.x",
+        "zendframework/zend-file": "2.5.x",
+    },
+}
