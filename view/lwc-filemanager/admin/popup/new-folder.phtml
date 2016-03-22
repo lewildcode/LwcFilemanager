@@ -1,0 +1,18 @@
+<?php 
+
+$content = '<form role="form" method="post" class="clearfix" action="' . $this->url('zfcadmin/lwcfilemanager', array('action'=>'new-folder')) . '">
+    <input type="hidden" name="base" value="' . $base .'" />
+    <div class="form-group">
+        <label>' . $this->translate('Folder name') . '</label>
+        <input type="text" class="form-control" name="folder-name" required placeholder="New folder">
+    </div>
+    <div class="form-group pull-right">
+        <input type="submit" name="submit-new-folder" class="btn btn-primary" value="' . $this->translate('Create folder') . '">
+    </div>
+</form>';
+?>
+<?php echo $this->partial('lwcfilemanager/popup_template', array(
+    'class' => 'modal-new-folder',
+    'content' => $content,
+    'title' => 'New folder'
+)); ?>

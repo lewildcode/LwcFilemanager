@@ -1,0 +1,82 @@
+<div class="table-responsive">
+    <table class="table table-condensed table-striped">
+        <thead>
+            <tr>
+                <th width="3%">&nbsp;</th>
+                <th>Name</th>
+                <th><?php echo $this->translate('File actions') ?></th>
+                <th><?php echo $this->translate('Filesize') ?></th>
+                <th class="text-right"><?php echo $this->translate('Creation date') ?></th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php $rows = 0; ?>
+            <?php foreach($dir as $label => $file) : ?>
+                <?php /* @var $file SplFileInfo */ ?>
+                <?php $basename = $file->getBasename(); ?>
+                <?php if($file->isFile() && $basename[0] == '.') : ?>
+                    <?php continue; ?>
+                <?php endif; ?>
+                <tr>
+                    <td><?php echo $this->fileIcon($file); ?></td>
+                    <td>
+                        <?php if($file->isDir()) : ?>
+                            <a class="lwcfilemanager-ajax" href="<?php echo $this->url(); ?>?base=<?php echo base64_encode($file); ?>">
+                                <?php echo basename($label); ?>
+                            </a>
+                        <?php else : ?>
+                            <?php echo basename($label); ?>
+                        <?php endif; ?>
+                    </td>
+                    <td>
+                        <div class="btn-group btn-group-xs">
+                            <?php if(!$ajax) : ?>
+                                <?php if(!$file->isDir()) : ?>
+                                    <a href="<?php echo $this->url(null, array('action'=>'delete-file')); ?>?base=<?php echo base64_encode($file); ?>" class="btn btn-danger lwcfilemanager-delete">
+                                        <span class="glyphicon glyphicon-trash"></span>
+                                        <?php echo $this->translate('Delete file') ?>
+                                    </a>
+                                    <a href="<?php echo $this->cdnUrl($label); ?>" target="_blank" class="btn btn-default">
+                                        <span class="glyphicon glyphicon-download"></span>
+                                        <?php echo $this->translate('Download file') ?>
+                                    </a>
+                                <?php else : ?>
+                                    <a href="<?php echo $this->url(null, array('action'=>'delete-folder')); ?>?base=<?php echo base64_encode($file); ?>" class="btn btn-danger lwcfilemanager-delete">
+                                        <span class="glyphicon glyphicon-trash"></span>
+                                        <?php echo $this->translate('Delete folder') ?>
+                                    </a>
+                                <?php endif; ?>
+                            <?php else : ?>
+                                <?php if(!$file->isDir()) : ?>
+                                    <button class="btn btn-default" data-lwcfilemanager-path="<?php echo $label; ?>">
+                                        <span class="glyphicon glyphicon glyphicon-ok"></span>
+                                        <?php echo $this->translate('Pick file') ?>
+                                    </button>
+                                <?php endif; ?>
+                            <?php endif; ?> 
+                        </div>
+                    </td>
+                    <td>
+                        <?php if(!$file->isDir()) : ?>
+                            <?php echo $this->fileSize($file->getSize()) ?>
+                        <?php endif; ?>
+                    </td>
+                    <td class="text-right">
+                        <?php try {
+                            $time = $file->getCTime();
+                            echo strftime('%d.%m.%y %H:%M', $time);
+                        } catch(\RuntimeException $e) {
+                            echo '-';
+                        }?>
+                    </td>
+                </tr>
+                <?php $rows++; ?>
+            <?php endforeach; ?>
+            <?php if($rows == 0) : ?>
+                <tr>
+                    <td colspan="99"><div class="alert alert-info" style="margin:0;"><?php echo $this->translate('Folder is empty') ?></div></td>
+                </tr>
+            <?php endif; ?>
+        </tbody>
+    </table>
+</div>

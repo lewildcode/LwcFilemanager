@@ -1,0 +1,56 @@
+<div class="panel panel-default">
+    <div class="panel-heading"><?php echo $this->translate('File Manager'); ?></div>
+    <div class="panel-body">
+        <div class="btn-group btn-group-sm">
+            <?php if($this->backLink($base)) : ?>
+                <a class="btn btn-default lwcfilemanager-ajax" href="<?php echo $this->backLink($base); ?>">
+                    <span class="glyphicon glyphicon-arrow-left"></span>
+                    <?php echo $this->translate('Back') ?>
+                </a>
+                <?php $urlDelete = $this->url('zfcadmin/lwcfilemanager', array(
+                    'action' => 'delete-folder'
+                )) . '?base=' . $base; ?>
+                <a class="btn btn-danger" href="<?php echo $urlDelete; ?>">
+                    <span class="glyphicon glyphicon-trash"></span>
+                    <?php echo $this->translate('Delete folder') ?>
+                </a>
+            <?php endif; ?>
+            <button class="btn btn-primary" data-toggle="modal" data-target=".modal-new-folder">
+                <span class="glyphicon glyphicon-circle-arrow-up"></span>
+                <?php echo $this->translate('New folder') ?>
+            </button>
+            <button class="btn btn-primary" data-toggle="modal" data-target=".modal-upload">
+                <span class="glyphicon glyphicon-upload"></span>
+                <?php echo $this->translate('Upload files') ?>
+            </button>
+        </div>
+    </div>
+    <?php echo $this->fileList($dir, $isAjax); ?>
+</div>
+
+<?php if($isAjax) : ?>
+    <script type="text/javascript">
+    $(document).on('click', '.lwcfilemanager-ajax', function(event) {
+        event.preventDefault();
+        $.get(event.target, function(response) {
+            $('.modal-body').html(response);
+        });
+    });
+    $(document).on('click', '[data-lwcfilemanager-path]', function(event) {
+        var path = $(this).attr('data-lwcfilemanager-path');
+        $('[data-lwcfilemanager-target="1"]').val(path);
+        $('.modal').modal('hide');
+    });
+    </script>
+<?php else : ?>
+    <script type="text/javascript">
+    $(document).on('click', '.lwcfilemanager-delete', function(event) {
+        return confirm('<?php echo $this->translate('Sure to delete?') ?>');
+    });
+    </script>
+<?php endif; ?>
+<?php echo $this->partial('lwcfilemanager/popup_new_folder') ?>
+<?php echo $this->partial('lwcfilemanager/popup_new_files', array(
+    'base' => $base,
+    'form' => $uploadForm
+)) ?>

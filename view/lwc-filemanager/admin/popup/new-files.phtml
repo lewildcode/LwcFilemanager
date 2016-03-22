@@ -1,0 +1,17 @@
+<?php 
+$form->setAttribute('method', 'post');
+$form->setAttribute('role', 'form');
+$form->setAttribute('action', $this->url('zfcadmin/lwcfilemanager', array(
+    'action'=>'upload'
+)));
+?>
+<?php $content = $this->form()->openTag($form) ?>
+    <?php foreach ($form as $element): ?>
+        <?php $content .= '<div class="form-group">' . $this->formrow($element) . '</div>'; ?>
+    <?php endforeach ?>
+<?php $content .= $this->form()->closeTag() ?>
+<?php echo $this->partial('lwcfilemanager/popup_template', array(
+    'class' => 'modal-upload',
+    'content' => $content,
+    'title' => 'Upload files'
+)); ?>
