@@ -12,6 +12,6 @@
         "zendframework/zend-text": "2.5.x",
         "zendframework/zend-log": "2.5.x",
         "zendframework/zend-version": "2.5.x",
-        "zendframework/zend-file": "2.5.x",
+        "zendframework/zend-file": "2.5.x"
     },
 }
